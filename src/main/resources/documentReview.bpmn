@@ -5,8 +5,13 @@
     <property id="reviewResult" itemSubjectRef="ItemDefinition_5497"/>
     <laneSet id="LaneSet_1" name="Lane Set 1"/>
     <startEvent id="_1" name="StartProcess">
-      <outgoing>SequenceFlow_7</outgoing>
+      <outgoing>SequenceFlow_9</outgoing>
     </startEvent>
+    <exclusiveGateway id="ExclusiveGateway_1" name="" gatewayDirection="Converging">
+      <incoming>SequenceFlow_6</incoming>
+      <incoming>SequenceFlow_9</incoming>
+      <outgoing>SequenceFlow_3</outgoing>
+    </exclusiveGateway>
     <userTask id="UserTask_1" name="Review Document">
       <extensionElements>
         <tns:onEntry-script scriptFormat="http://www.java.com/java">
@@ -16,8 +21,8 @@
           <tns:script>System.out.println(&quot;Document review completed.&quot;);</tns:script>
         </tns:onExit-script>
       </extensionElements>
-      <incoming>SequenceFlow_7</incoming>
-      <outgoing>SequenceFlow_10</outgoing>
+      <incoming>SequenceFlow_3</incoming>
+      <outgoing>SequenceFlow_4</outgoing>
       <ioSpecification id="_InputOutputSpecification_5">
         <dataInput id="_DataInput_23" name="TaskName"/>
         <dataInput id="_DataInput_24" name="Priority"/>
@@ -81,11 +86,111 @@
         </resourceAssignmentExpression>
       </potentialOwner>
     </userTask>
+    <userTask id="UserTask_2" name="Rework Document">
+      <extensionElements>
+        <tns:onEntry-script scriptFormat="http://www.java.com/java">
+          <tns:script></tns:script>
+        </tns:onEntry-script>
+        <tns:onExit-script scriptFormat="http://www.java.com/java">
+          <tns:script></tns:script>
+        </tns:onExit-script>
+      </extensionElements>
+      <incoming>SequenceFlow_5</incoming>
+      <outgoing>SequenceFlow_6</outgoing>
+      <ioSpecification id="_InputOutputSpecification_6">
+        <dataInput id="_DataInput_30" name="TaskName"/>
+        <dataInput id="_DataInput_31" name="Priority"/>
+        <dataInput id="_DataInput_32" name="Comment"/>
+        <dataInput id="_DataInput_33" name="GroupId"/>
+        <dataInput id="_DataInput_34" name="Skippable"/>
+        <dataInput id="_DataInput_35" name="Content"/>
+        <dataInput id="_DataInput_36" name="Locale"/>
+        <dataInput id="DataInput_2" itemSubjectRef="ItemDefinition_1209" name="document"/>
+        <dataOutput id="DataOutput_2" itemSubjectRef="ItemDefinition_1209" name="document"/>
+        <inputSet id="_InputSet_6" name="Input Set 6">
+          <dataInputRefs>_DataInput_30</dataInputRefs>
+          <dataInputRefs>_DataInput_31</dataInputRefs>
+          <dataInputRefs>_DataInput_32</dataInputRefs>
+          <dataInputRefs>_DataInput_33</dataInputRefs>
+          <dataInputRefs>_DataInput_34</dataInputRefs>
+          <dataInputRefs>_DataInput_35</dataInputRefs>
+          <dataInputRefs>_DataInput_36</dataInputRefs>
+          <dataInputRefs>DataInput_2</dataInputRefs>
+        </inputSet>
+        <outputSet id="OutputSet_2">
+          <dataOutputRefs>DataOutput_2</dataOutputRefs>
+        </outputSet>
+      </ioSpecification>
+      <dataInputAssociation id="_DataInputAssociation_30">
+        <targetRef>_DataInput_30</targetRef>
+        <assignment id="Assignment_2">
+          <from xsi:type="tFormalExpression" id="FormalExpression_2">ReworkDocument</from>
+          <to xsi:type="tFormalExpression" id="FormalExpression_3">_DataInput_30</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation id="_DataInputAssociation_31">
+        <targetRef>_DataInput_31</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation id="_DataInputAssociation_32">
+        <targetRef>_DataInput_32</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation id="_DataInputAssociation_33">
+        <targetRef>_DataInput_33</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation id="_DataInputAssociation_34">
+        <targetRef>_DataInput_34</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation id="_DataInputAssociation_35">
+        <targetRef>_DataInput_35</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation id="_DataInputAssociation_36">
+        <targetRef>_DataInput_36</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation id="DataInputAssociation_2">
+        <sourceRef>document</sourceRef>
+        <targetRef>DataInput_2</targetRef>
+      </dataInputAssociation>
+      <dataOutputAssociation id="_DataOutputAssociation_5">
+        <sourceRef>DataOutput_2</sourceRef>
+        <targetRef>document</targetRef>
+      </dataOutputAssociation>
+      <potentialOwner id="PotentialOwner_2">
+        <resourceAssignmentExpression id="ResourceAssignmentExpression_2">
+          <formalExpression id="FormalExpression_6">mary</formalExpression>
+        </resourceAssignmentExpression>
+      </potentialOwner>
+    </userTask>
+    <exclusiveGateway id="ExclusiveGateway_2" name="" gatewayDirection="Diverging">
+      <incoming>SequenceFlow_4</incoming>
+      <outgoing>SequenceFlow_5</outgoing>
+      <outgoing>SequenceFlow_8</outgoing>
+    </exclusiveGateway>
+    <sequenceFlow id="SequenceFlow_3" tns:priority="1" name="" sourceRef="ExclusiveGateway_1" targetRef="UserTask_1"/>
+    <sequenceFlow id="SequenceFlow_4" tns:priority="1" name="" sourceRef="UserTask_1" targetRef="ExclusiveGateway_2"/>
+    <sequenceFlow id="SequenceFlow_5" tns:priority="1" name="rejected" sourceRef="ExclusiveGateway_2" targetRef="UserTask_2">
+      <conditionExpression xsi:type="tFormalExpression" id="FormalExpression_3" language="http://www.java.com/java">return reviewResult.equals(&quot;REJECTED&quot;);</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="SequenceFlow_6" tns:priority="1" name="" sourceRef="UserTask_2" targetRef="ExclusiveGateway_1"/>
+    <scriptTask id="ScriptTask_2" name="Change Status" scriptFormat="http://www.java.com/java">
+      <incoming>SequenceFlow_8</incoming>
+      <outgoing>SequenceFlow_1</outgoing>
+      <script>((com.system.data.Document)document).setStatus(com.system.data.Document.Status.AVAILABLE);</script>
+    </scriptTask>
     <endEvent id="EndEvent_1" name="">
-      <incoming>SequenceFlow_10</incoming>
+      <incoming>SequenceFlow_2</incoming>
     </endEvent>
-    <sequenceFlow id="SequenceFlow_7" tns:priority="1" name="" sourceRef="_1" targetRef="UserTask_1"/>
-    <sequenceFlow id="SequenceFlow_10" tns:priority="1" name="" sourceRef="UserTask_1" targetRef="EndEvent_1"/>
+    <sequenceFlow id="SequenceFlow_8" tns:priority="1" name="approved" sourceRef="ExclusiveGateway_2" targetRef="ScriptTask_2">
+      <conditionExpression xsi:type="tFormalExpression" id="FormalExpression_4" language="http://www.java.com/java">return reviewResult.equals(&quot;APPROVED&quot;);</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="SequenceFlow_9" tns:priority="1" name="" sourceRef="_1" targetRef="ExclusiveGateway_1"/>
+    <scriptTask id="ScriptTask_1" name="Update Document" scriptFormat="http://www.java.com/java">
+      <incoming>SequenceFlow_1</incoming>
+      <outgoing>SequenceFlow_2</outgoing>
+      <script>com.system.data.Document doc = (com.system.data.Document)document;
+com.system.dao.DocumentManager.getInstance().setDocument(doc.getId(), doc);</script>
+    </scriptTask>
+    <sequenceFlow id="SequenceFlow_1" tns:priority="1" name="" sourceRef="ScriptTask_2" targetRef="ScriptTask_1"/>
+    <sequenceFlow id="SequenceFlow_2" tns:priority="1" name="" sourceRef="ScriptTask_1" targetRef="EndEvent_1"/>
   </process>
   <itemDefinition id="ItemDefinition_1209" structureRef="com.system.data.Document"/>
   <itemDefinition id="ItemDefinition_5497" structureRef="String"/>
@@ -95,19 +200,58 @@
       <bpmndi:BPMNShape id="BPMNShape_StartEvent_1" bpmnElement="_1">
         <dc:Bounds height="48.0" width="48.0" x="45.0" y="46.0"/>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_ExclusiveGateway_1" bpmnElement="ExclusiveGateway_1" isMarkerVisible="true">
+        <dc:Bounds height="50.0" width="50.0" x="150.0" y="46.0"/>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_UserTask_1" bpmnElement="UserTask_1">
-        <dc:Bounds height="50.0" width="110.0" x="160.0" y="45.0"/>
+        <dc:Bounds height="50.0" width="110.0" x="230.0" y="46.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_UserTask_2" bpmnElement="UserTask_2">
+        <dc:Bounds height="50.0" width="110.0" x="230.0" y="142.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_ExclusiveGateway_2" bpmnElement="ExclusiveGateway_2" isMarkerVisible="true">
+        <dc:Bounds height="50.0" width="50.0" x="400.0" y="46.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_3" bpmnElement="SequenceFlow_3" sourceElement="BPMNShape_ExclusiveGateway_1" targetElement="BPMNShape_UserTask_1">
+        <di:waypoint xsi:type="dc:Point" x="201.0" y="71.0"/>
+        <di:waypoint xsi:type="dc:Point" x="230.0" y="71.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_4" bpmnElement="SequenceFlow_4" sourceElement="BPMNShape_UserTask_1" targetElement="BPMNShape_ExclusiveGateway_2">
+        <di:waypoint xsi:type="dc:Point" x="340.0" y="71.0"/>
+        <di:waypoint xsi:type="dc:Point" x="400.0" y="71.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_5" bpmnElement="SequenceFlow_5" sourceElement="BPMNShape_ExclusiveGateway_2" targetElement="BPMNShape_UserTask_2">
+        <di:waypoint xsi:type="dc:Point" x="400.0" y="71.0"/>
+        <di:waypoint xsi:type="dc:Point" x="340.0" y="167.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_6" bpmnElement="SequenceFlow_6" sourceElement="BPMNShape_UserTask_2" targetElement="BPMNShape_ExclusiveGateway_1">
+        <di:waypoint xsi:type="dc:Point" x="285.0" y="142.0"/>
+        <di:waypoint xsi:type="dc:Point" x="201.0" y="71.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_ScriptTask_2" bpmnElement="ScriptTask_2">
+        <dc:Bounds height="50.0" width="110.0" x="540.0" y="46.0"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_EndEvent_1" bpmnElement="EndEvent_1">
-        <dc:Bounds height="36.0" width="36.0" x="350.0" y="52.0"/>
+        <dc:Bounds height="36.0" width="36.0" x="900.0" y="52.0"/>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_7" bpmnElement="SequenceFlow_7" sourceElement="BPMNShape_StartEvent_1" targetElement="BPMNShape_UserTask_1">
-        <di:waypoint xsi:type="dc:Point" x="93.0" y="70.0"/>
-        <di:waypoint xsi:type="dc:Point" x="160.0" y="70.0"/>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_8" bpmnElement="SequenceFlow_8" sourceElement="BPMNShape_ExclusiveGateway_2" targetElement="BPMNShape_ScriptTask_2">
+        <di:waypoint xsi:type="dc:Point" x="451.0" y="71.0"/>
+        <di:waypoint xsi:type="dc:Point" x="540.0" y="71.0"/>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_10" bpmnElement="SequenceFlow_10" sourceElement="BPMNShape_UserTask_1" targetElement="BPMNShape_EndEvent_1">
-        <di:waypoint xsi:type="dc:Point" x="270.0" y="70.0"/>
-        <di:waypoint xsi:type="dc:Point" x="350.0" y="70.0"/>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_9" bpmnElement="SequenceFlow_9" sourceElement="BPMNShape_StartEvent_1" targetElement="BPMNShape_ExclusiveGateway_1">
+        <di:waypoint xsi:type="dc:Point" x="93.0" y="70.0"/>
+        <di:waypoint xsi:type="dc:Point" x="150.0" y="71.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_ScriptTask_1" bpmnElement="ScriptTask_1">
+        <dc:Bounds height="50.0" width="110.0" x="720.0" y="45.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_1" bpmnElement="SequenceFlow_1" sourceElement="BPMNShape_ScriptTask_2" targetElement="BPMNShape_ScriptTask_1">
+        <di:waypoint xsi:type="dc:Point" x="650.0" y="71.0"/>
+        <di:waypoint xsi:type="dc:Point" x="720.0" y="70.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_2" bpmnElement="SequenceFlow_2" sourceElement="BPMNShape_ScriptTask_1" targetElement="BPMNShape_EndEvent_1">
+        <di:waypoint xsi:type="dc:Point" x="830.0" y="70.0"/>
+        <di:waypoint xsi:type="dc:Point" x="900.0" y="70.0"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
@@ -143,6 +287,66 @@
               </bpsim:UnitCost>
             </bpsim:CostParameters>
           </bpsim:ElementParameters>
+          <bpsim:ElementParameters xsi:type="bpsim:ElementParameters" id="UserTask_2">
+            <bpsim:TimeParameters xsi:type="bpsim:TimeParameters">
+              <bpsim:ProcessingTime xsi:type="bpsim:Parameter">
+                <bpsim:UniformDistribution max="1.0" min="0.0"/>
+              </bpsim:ProcessingTime>
+            </bpsim:TimeParameters>
+            <bpsim:ResourceParameters xsi:type="bpsim:ResourceParameters">
+              <bpsim:Availability xsi:type="bpsim:Parameter">
+                <bpsim:FloatingParameter value="0.0"/>
+              </bpsim:Availability>
+              <bpsim:Quantity xsi:type="bpsim:Parameter">
+                <bpsim:FloatingParameter value="0.0"/>
+              </bpsim:Quantity>
+            </bpsim:ResourceParameters>
+            <bpsim:CostParameters xsi:type="bpsim:CostParameters">
+              <bpsim:UnitCost xsi:type="bpsim:Parameter">
+                <bpsim:FloatingParameter value="0.0"/>
+              </bpsim:UnitCost>
+            </bpsim:CostParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters xsi:type="bpsim:ElementParameters" id="SequenceFlow_3">
+            <bpsim:ControlParameters xsi:type="bpsim:ControlParameters">
+              <bpsim:Probability xsi:type="bpsim:Parameter">
+                <bpsim:FloatingParameter value="100.0"/>
+              </bpsim:Probability>
+            </bpsim:ControlParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters xsi:type="bpsim:ElementParameters" id="SequenceFlow_4">
+            <bpsim:ControlParameters xsi:type="bpsim:ControlParameters">
+              <bpsim:Probability xsi:type="bpsim:Parameter">
+                <bpsim:FloatingParameter value="100.0"/>
+              </bpsim:Probability>
+            </bpsim:ControlParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters xsi:type="bpsim:ElementParameters" id="SequenceFlow_5">
+            <bpsim:ControlParameters xsi:type="bpsim:ControlParameters">
+              <bpsim:Probability xsi:type="bpsim:Parameter">
+                <bpsim:FloatingParameter value="100.0"/>
+              </bpsim:Probability>
+            </bpsim:ControlParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters xsi:type="bpsim:ElementParameters" id="SequenceFlow_6">
+            <bpsim:ControlParameters xsi:type="bpsim:ControlParameters">
+              <bpsim:Probability xsi:type="bpsim:Parameter">
+                <bpsim:FloatingParameter value="100.0"/>
+              </bpsim:Probability>
+            </bpsim:ControlParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters xsi:type="bpsim:ElementParameters" id="ScriptTask_2">
+            <bpsim:TimeParameters xsi:type="bpsim:TimeParameters">
+              <bpsim:ProcessingTime xsi:type="bpsim:Parameter">
+                <bpsim:UniformDistribution max="1.0" min="0.0"/>
+              </bpsim:ProcessingTime>
+            </bpsim:TimeParameters>
+            <bpsim:CostParameters xsi:type="bpsim:CostParameters">
+              <bpsim:UnitCost xsi:type="bpsim:Parameter">
+                <bpsim:FloatingParameter value="0.0"/>
+              </bpsim:UnitCost>
+            </bpsim:CostParameters>
+          </bpsim:ElementParameters>
           <bpsim:ElementParameters xsi:type="bpsim:ElementParameters" id="EndEvent_1">
             <bpsim:TimeParameters xsi:type="bpsim:TimeParameters">
               <bpsim:ProcessingTime xsi:type="bpsim:Parameter">
@@ -150,14 +354,40 @@
               </bpsim:ProcessingTime>
             </bpsim:TimeParameters>
           </bpsim:ElementParameters>
-          <bpsim:ElementParameters xsi:type="bpsim:ElementParameters" id="SequenceFlow_7">
+          <bpsim:ElementParameters xsi:type="bpsim:ElementParameters" id="SequenceFlow_8">
             <bpsim:ControlParameters xsi:type="bpsim:ControlParameters">
               <bpsim:Probability xsi:type="bpsim:Parameter">
                 <bpsim:FloatingParameter value="100.0"/>
               </bpsim:Probability>
             </bpsim:ControlParameters>
           </bpsim:ElementParameters>
-          <bpsim:ElementParameters xsi:type="bpsim:ElementParameters" id="SequenceFlow_10">
+          <bpsim:ElementParameters xsi:type="bpsim:ElementParameters" id="SequenceFlow_9">
+            <bpsim:ControlParameters xsi:type="bpsim:ControlParameters">
+              <bpsim:Probability xsi:type="bpsim:Parameter">
+                <bpsim:FloatingParameter value="100.0"/>
+              </bpsim:Probability>
+            </bpsim:ControlParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters xsi:type="bpsim:ElementParameters" id="ScriptTask_1">
+            <bpsim:TimeParameters xsi:type="bpsim:TimeParameters">
+              <bpsim:ProcessingTime xsi:type="bpsim:Parameter">
+                <bpsim:UniformDistribution max="1.0" min="0.0"/>
+              </bpsim:ProcessingTime>
+            </bpsim:TimeParameters>
+            <bpsim:CostParameters xsi:type="bpsim:CostParameters">
+              <bpsim:UnitCost xsi:type="bpsim:Parameter">
+                <bpsim:FloatingParameter value="0.0"/>
+              </bpsim:UnitCost>
+            </bpsim:CostParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters xsi:type="bpsim:ElementParameters" id="SequenceFlow_1">
+            <bpsim:ControlParameters xsi:type="bpsim:ControlParameters">
+              <bpsim:Probability xsi:type="bpsim:Parameter">
+                <bpsim:FloatingParameter value="100.0"/>
+              </bpsim:Probability>
+            </bpsim:ControlParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters xsi:type="bpsim:ElementParameters" id="SequenceFlow_2">
             <bpsim:ControlParameters xsi:type="bpsim:ControlParameters">
               <bpsim:Probability xsi:type="bpsim:Parameter">
                 <bpsim:FloatingParameter value="100.0"/>

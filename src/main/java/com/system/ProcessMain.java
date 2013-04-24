@@ -46,6 +46,7 @@ public class ProcessMain {
 
             HumanTask humanTask = new HumanTask();
             humanTask.registerHandler(new ReviewDocument(ksession));
+            humanTask.registerHandler(new ReworkDocument(ksession));
             ksession.getWorkItemManager().registerWorkItemHandler("Human Task",
                     humanTask);
 
