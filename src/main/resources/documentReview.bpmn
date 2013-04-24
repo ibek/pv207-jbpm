@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:_1="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bpsim="http://www.bpsim.org/schemas/1.0" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.jboss.org/drools" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd" id="Definition" expressionLanguage="http://www.mvel.org/2.0" targetNamespace="http://www.jboss.org/drools" typeLanguage="http://www.java.com/javaTypes">
+  <process id="com.system.bpmn.documentReview" tns:version="1" tns:packageName="defaultPackage" tns:adHoc="false" name="Document Review" isExecutable="true" processType="Private">
+    <property id="document" itemSubjectRef="ItemDefinition_1209"/>
+    <property id="reviewResult" itemSubjectRef="ItemDefinition_5497"/>
+    <laneSet id="LaneSet_1" name="Lane Set 1"/>
+    <startEvent id="_1" name="StartProcess">
+      <outgoing>SequenceFlow_7</outgoing>
+    </startEvent>
+    <userTask id="UserTask_1" name="Review Document">
+      <extensionElements>
+        <tns:onEntry-script scriptFormat="http://www.java.com/java">
+          <tns:script>System.out.println(&quot;Pending document review ... &quot;);</tns:script>
+        </tns:onEntry-script>
+        <tns:onExit-script scriptFormat="http://www.java.com/java">
+          <tns:script>System.out.println(&quot;Document review completed.&quot;);</tns:script>
+        </tns:onExit-script>
+      </extensionElements>
+      <incoming>SequenceFlow_7</incoming>
+      <outgoing>SequenceFlow_10</outgoing>
+      <ioSpecification id="_InputOutputSpecification_5">
+        <dataInput id="_DataInput_23" name="TaskName"/>
+        <dataInput id="_DataInput_24" name="Priority"/>
+        <dataInput id="_DataInput_25" name="Comment"/>
+        <dataInput id="_DataInput_26" name="GroupId"/>
+        <dataInput id="_DataInput_27" name="Skippable"/>
+        <dataInput id="_DataInput_28" name="Content"/>
+        <dataInput id="_DataInput_29" name="Locale"/>
+        <dataInput id="DataInput_1" itemSubjectRef="ItemDefinition_1209" name="document"/>
+        <dataOutput id="DataOutput_1" itemSubjectRef="ItemDefinition_5497" name="result"/>
+        <inputSet id="_InputSet_5" name="Input Set 5">
+          <dataInputRefs>_DataInput_23</dataInputRefs>
+          <dataInputRefs>_DataInput_24</dataInputRefs>
+          <dataInputRefs>_DataInput_25</dataInputRefs>
+          <dataInputRefs>_DataInput_26</dataInputRefs>
+          <dataInputRefs>_DataInput_27</dataInputRefs>
+          <dataInputRefs>_DataInput_28</dataInputRefs>
+          <dataInputRefs>_DataInput_29</dataInputRefs>
+          <dataInputRefs>DataInput_1</dataInputRefs>
+        </inputSet>
+        <outputSet id="OutputSet_1">
+          <dataOutputRefs>DataOutput_1</dataOutputRefs>
+        </outputSet>
+      </ioSpecification>
+      <dataInputAssociation id="_DataInputAssociation_23">
+        <targetRef>_DataInput_23</targetRef>
+        <assignment id="Assignment_1">
+          <from xsi:type="tFormalExpression" id="FormalExpression_1">ReviewDocument</from>
+          <to xsi:type="tFormalExpression" id="FormalExpression_2">_DataInput_23</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation id="_DataInputAssociation_24">
+        <targetRef>_DataInput_24</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation id="_DataInputAssociation_25">
+        <targetRef>_DataInput_25</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation id="_DataInputAssociation_26">
+        <targetRef>_DataInput_26</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation id="_DataInputAssociation_27">
+        <targetRef>_DataInput_27</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation id="_DataInputAssociation_28">
+        <targetRef>_DataInput_28</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation id="_DataInputAssociation_29">
+        <targetRef>_DataInput_29</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation id="DataInputAssociation_1">
+        <sourceRef>document</sourceRef>
+        <targetRef>DataInput_1</targetRef>
+      </dataInputAssociation>
+      <dataOutputAssociation id="_DataOutputAssociation_4">
+        <sourceRef>DataOutput_1</sourceRef>
+        <targetRef>reviewResult</targetRef>
+      </dataOutputAssociation>
+      <potentialOwner id="PotentialOwner_1">
+        <resourceAssignmentExpression id="ResourceAssignmentExpression_1">
+          <formalExpression id="FormalExpression_5">john</formalExpression>
+        </resourceAssignmentExpression>
+      </potentialOwner>
+    </userTask>
+    <endEvent id="EndEvent_1" name="">
+      <incoming>SequenceFlow_10</incoming>
+    </endEvent>
+    <sequenceFlow id="SequenceFlow_7" tns:priority="1" name="" sourceRef="_1" targetRef="UserTask_1"/>
+    <sequenceFlow id="SequenceFlow_10" tns:priority="1" name="" sourceRef="UserTask_1" targetRef="EndEvent_1"/>
+  </process>
+  <itemDefinition id="ItemDefinition_1209" structureRef="com.system.data.Document"/>
+  <itemDefinition id="ItemDefinition_5497" structureRef="String"/>
+  <itemDefinition id="ItemDefinition_20077" structureRef="Boolean"/>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1" name="Document Review">
+    <bpmndi:BPMNPlane id="BPMNPlane_Process_1" bpmnElement="com.system.bpmn.documentReview">
+      <bpmndi:BPMNShape id="BPMNShape_StartEvent_1" bpmnElement="_1">
+        <dc:Bounds height="48.0" width="48.0" x="45.0" y="46.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_UserTask_1" bpmnElement="UserTask_1">
+        <dc:Bounds height="50.0" width="110.0" x="160.0" y="45.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_EndEvent_1" bpmnElement="EndEvent_1">
+        <dc:Bounds height="36.0" width="36.0" x="350.0" y="52.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_7" bpmnElement="SequenceFlow_7" sourceElement="BPMNShape_StartEvent_1" targetElement="BPMNShape_UserTask_1">
+        <di:waypoint xsi:type="dc:Point" x="93.0" y="70.0"/>
+        <di:waypoint xsi:type="dc:Point" x="160.0" y="70.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_10" bpmnElement="SequenceFlow_10" sourceElement="BPMNShape_UserTask_1" targetElement="BPMNShape_EndEvent_1">
+        <di:waypoint xsi:type="dc:Point" x="270.0" y="70.0"/>
+        <di:waypoint xsi:type="dc:Point" x="350.0" y="70.0"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+  <relationship id="Relationship_1">
+    <extensionElements>
+      <tns:ProcessAnalysisData>
+        <tns:Scenario xsi:type="bpsim:Scenario" id="Scenario_1" name="Scenario 1">
+          <bpsim:ScenarioParameters xsi:type="bpsim:ScenarioParameters" baseTimeUnit="ms"/>
+          <bpsim:ElementParameters xsi:type="bpsim:ElementParameters" id="_1">
+            <bpsim:TimeParameters xsi:type="bpsim:TimeParameters">
+              <bpsim:WaitTime xsi:type="bpsim:Parameter">
+                <bpsim:FloatingParameter value="1.0"/>
+              </bpsim:WaitTime>
+            </bpsim:TimeParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters xsi:type="bpsim:ElementParameters" id="UserTask_1">
+            <bpsim:TimeParameters xsi:type="bpsim:TimeParameters">
+              <bpsim:ProcessingTime xsi:type="bpsim:Parameter">
+                <bpsim:UniformDistribution max="1.0" min="0.0"/>
+              </bpsim:ProcessingTime>
+            </bpsim:TimeParameters>
+            <bpsim:ResourceParameters xsi:type="bpsim:ResourceParameters">
+              <bpsim:Availability xsi:type="bpsim:Parameter">
+                <bpsim:FloatingParameter value="0.0"/>
+              </bpsim:Availability>
+              <bpsim:Quantity xsi:type="bpsim:Parameter">
+                <bpsim:FloatingParameter value="0.0"/>
+              </bpsim:Quantity>
+            </bpsim:ResourceParameters>
+            <bpsim:CostParameters xsi:type="bpsim:CostParameters">
+              <bpsim:UnitCost xsi:type="bpsim:Parameter">
+                <bpsim:FloatingParameter value="0.0"/>
+              </bpsim:UnitCost>
+            </bpsim:CostParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters xsi:type="bpsim:ElementParameters" id="EndEvent_1">
+            <bpsim:TimeParameters xsi:type="bpsim:TimeParameters">
+              <bpsim:ProcessingTime xsi:type="bpsim:Parameter">
+                <bpsim:UniformDistribution max="1.0" min="0.0"/>
+              </bpsim:ProcessingTime>
+            </bpsim:TimeParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters xsi:type="bpsim:ElementParameters" id="SequenceFlow_7">
+            <bpsim:ControlParameters xsi:type="bpsim:ControlParameters">
+              <bpsim:Probability xsi:type="bpsim:Parameter">
+                <bpsim:FloatingParameter value="100.0"/>
+              </bpsim:Probability>
+            </bpsim:ControlParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters xsi:type="bpsim:ElementParameters" id="SequenceFlow_10">
+            <bpsim:ControlParameters xsi:type="bpsim:ControlParameters">
+              <bpsim:Probability xsi:type="bpsim:Parameter">
+                <bpsim:FloatingParameter value="100.0"/>
+              </bpsim:Probability>
+            </bpsim:ControlParameters>
+          </bpsim:ElementParameters>
+        </tns:Scenario>
+      </tns:ProcessAnalysisData>
+    </extensionElements>
+    <source>Definition</source>
+    <target>Definition</target>
+  </relationship>
+</definitions>
