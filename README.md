@@ -15,3 +15,7 @@
   4. In Windows->Preferences->jBPM->Installed jBPM Runtime - add location to the jBPM 5.4 libraries and mark it as a default runtime
   5. In Windows->Preferences->jBPM Task - change the Port to 5153
 
+## First step
+
+[Direct download](https://www.dropbox.com/s/nyb0foeq7eura8v/pv207-jbpm.zip) --- [http://goo.gl/AvuVF](http://goo.gl/AvuVF)
+
