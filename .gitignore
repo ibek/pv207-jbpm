@@ -1,3 +1,5 @@
-bin/
-/data/
 btm*
+target
+.settings
+.project
+.classpath
