@@ -1,5 +1,9 @@
 package org.jbpm.example.scenario;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.jbpm.example.EnvironmentProducer;
 import org.jbpm.example.data.Order;
 import org.jbpm.example.data.ProductType;
@@ -7,7 +11,9 @@ import org.jbpm.example.service.WarehouseManagementSystem;
 import org.jbpm.example.util.JbpmHelper;
 import org.jbpm.process.workitem.bpmn2.ServiceTaskHandler;
 import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.process.ProcessInstance;
 import org.kie.api.task.TaskService;
+import org.kie.api.task.model.Task;
 
 /**
  * This scenario starts an order process of wanted goods.
@@ -36,13 +42,13 @@ public class OrderGoods {
 		configure();
 		/** maximum amount of products is 10 */
 
-		// order(new Order(1, ProductType.LAPTOP.name(), 10));
+		 order(new Order(1, ProductType.LAPTOP.name(), 10));
 
 		/** signals SupplyWarehouseProcess and OrderGoods process is aborted */
-		order(new Order(1, ProductType.MOBILE.name(), 20));
+		// order(new Order(1, ProductType.MOBILE.name(), 20));
 
 		/** client with id 10 is on the black list */
-		// order(new Order(10, ProductType.MOBILE.name(), 5));
+		//order(new Order(10, ProductType.MOBILE.name(), 5));
 
 		env.close();
 	}
@@ -65,6 +71,10 @@ public class OrderGoods {
 		 * TODO: start process PROCESS_DEFINITION_ID via ksession.startProcess
 		 * method and pass "order" parameter
 		 */
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("order", order);
+		ProcessInstance processInstance = ksession.startProcess(
+				PROCESS_DEFINITION_ID, parameters);
 
 		/**
 		 * TODO: for an active process claim, start and complete tasks
@@ -74,6 +84,48 @@ public class OrderGoods {
 		 * taskService.getTasksByProcessInstanceId, taskService.getTaskById,
 		 * taskService.claim, taskService.start, taskService.complete
 		 */
+		if (processInstance.getState() == ProcessInstance.STATE_ACTIVE) {
+
+			// Pack Goods
+
+			/** need to update tasks list */
+			List<Long> tasks = taskService
+					.getTasksByProcessInstanceId(processInstance.getId());
+			/** get current task id */
+			Long taskId = tasks.get(tasks.size() - 1);
+
+			Task currentTask = taskService.getTaskById(taskId);
+			String taskName = currentTask.getNames().get(0).getText();
+			System.out.println("Current task is '" + taskName + "'");
+
+			taskService.claim(taskId, "mary");
+			taskService.start(taskId, "mary");
+			taskService.complete(taskId, "mary", null);
+
+			System.out.println("Task '" + taskName + "' is completed\n");
+
+			// Ship Goods
+
+			/** need to update tasks list */
+			tasks = taskService.getTasksByProcessInstanceId(processInstance
+					.getId());
+			/** get current task id */
+			taskId = tasks.get(tasks.size() - 1);
+
+			currentTask = taskService.getTaskById(taskId);
+			taskName = currentTask.getNames().get(0).getText();
+			System.out.println("Current task is '" + taskName + "'");
+
+			/**
+			 * it is not necessary to claim the second task since the tasks are
+			 * in one swimlane
+			 */
+			// taskService.claim(taskId, "mary");
+			taskService.start(taskId, "mary");
+			taskService.complete(taskId, "mary", null);
+
+			System.out.println("Task '" + taskName + "' is completed\n");
+		}
 
 		System.out.println("Process is "
 				+ JbpmHelper.getProcessStatus(PROCESS_DEFINITION_ID,

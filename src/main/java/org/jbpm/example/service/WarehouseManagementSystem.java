@@ -36,6 +36,9 @@ public class WarehouseManagementSystem {
             throw new ForbiddenClientException("Client " + clientId + " is on the black list.");
         }
         // TODO: update storage data
+        ProductType type = ProductType.valueOf(order.getType());
+        Integer count = storage.get(type) - order.getAmount();
+        storage.put(type, count);
     }
 
     public boolean checkStockLevel(Order order) {
