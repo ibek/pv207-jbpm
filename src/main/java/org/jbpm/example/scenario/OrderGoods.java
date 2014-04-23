@@ -18,11 +18,11 @@ import org.kie.api.task.TaskService;
  * See assets/OrderGoodsProcess.bpmn2 for further details about the process
  * definition.
  * 
- * If the amount of goods is not available, the process instance
- * signals SupplyWarehouseProcess.
+ * If the amount of goods is not available, the process instance signals
+ * SupplyWarehouseProcess.
  * 
- * Clients with identifier 10-19 are on the
- * black list and so an exception is risen on the Pick up service task.
+ * Clients with identifier 10-19 are on the black list and so an exception is
+ * risen on the Pick up service task.
  */
 public class OrderGoods {
 
@@ -36,10 +36,10 @@ public class OrderGoods {
 		configure();
 		/** maximum amount of products is 10 */
 
-		order(new Order(1, ProductType.LAPTOP.name(), 10));
+		// order(new Order(1, ProductType.LAPTOP.name(), 10));
 
 		/** signals SupplyWarehouseProcess and OrderGoods process is aborted */
-		// order(new Order(1, ProductType.MOBILE.name(), 20));
+		order(new Order(1, ProductType.MOBILE.name(), 20));
 
 		/** client with id 10 is on the black list */
 		// order(new Order(10, ProductType.MOBILE.name(), 5));
@@ -67,16 +67,12 @@ public class OrderGoods {
 		 */
 
 		/**
-		 * TODO: for an active process claim, start and complete tasks "Pack goods" and "Ship goods"
-		 * with user "mary". You can find these methods useful:
+		 * TODO: for an active process claim, start and complete tasks
+		 * "Pack goods" and "Ship goods" with user "mary". You can find these
+		 * methods useful:
 		 * 
 		 * taskService.getTasksByProcessInstanceId, taskService.getTaskById,
 		 * taskService.claim, taskService.start, taskService.complete
-		 */
-
-		/**
-		 * TODO: print outcome of the aborted process which you can get via this
-		 * method ((org.jbpm.process.instance.ProcessInstance) pi) .getOutcome()
 		 */
 
 		System.out.println("Process is "
