@@ -10,8 +10,8 @@
   <bpmn2:itemDefinition id="__0895C108-A700-4420-9FE0-496DBD95537B_orderInputXItem" structureRef="org.jbpm.example.data.Order"/>
   <bpmn2:itemDefinition id="ItemDefinition_1" structureRef="org.jbpm.example.data.NotAvailableGoodsReport"/>
   <bpmn2:itemDefinition id="_ItemDefinition_3" structureRef="org.jbpm.example.service.WarehouseManagementSystem"/>
-  <bpmn2:itemDefinition id="ItemDefinition_2" structureRef="java.lang.Exception"/>
-  <bpmn2:itemDefinition id="ItemDefinition_3" structureRef="java.lang.Exception"/>
+  <bpmn2:itemDefinition id="ItemDefinition_2" structureRef="org.jbpm.bpmn2.handler.WorkItemHandlerRuntimeException"/>
+  <bpmn2:itemDefinition id="ItemDefinition_3" structureRef="org.jbpm.bpmn2.handler.WorkItemHandlerRuntimeException"/>
   <bpmn2:error id="NotAvailableGoodsErr" errorCode="NotAvailableGoods"/>
   <bpmn2:error id="Error_1" errorCode="org.jbpm.bpmn2.handler.WorkItemHandlerRuntimeException" name="ForbiddenClientException"/>
   <bpmn2:signal id="NotAvailableGoods" name="NotAvailableGoods"/>
@@ -150,9 +150,11 @@ kcontext.setVariable(&quot;report&quot;, report);</bpmn2:script>
       <bpmn2:ioSpecification id="_bOXfusoiEeOsIItR3g2uqw">
         <bpmn2:dataInput id="_C9D0E527-8FC3-4AAB-8244-B76776EF955C_orderInputX" drools:dtype="org.jbpm.example.data.Order" itemSubjectRef="__C9D0E527-8FC3-4AAB-8244-B76776EF955C_orderInputXItem" name="order"/>
         <bpmn2:dataInput id="_C9D0E527-8FC3-4AAB-8244-B76776EF955C_GroupIdInputX" name="GroupId"/>
+        <bpmn2:dataInput id="DataInput_2" name="TaskName"/>
         <bpmn2:inputSet id="_bOXfu8oiEeOsIItR3g2uqw">
           <bpmn2:dataInputRefs>_C9D0E527-8FC3-4AAB-8244-B76776EF955C_orderInputX</bpmn2:dataInputRefs>
           <bpmn2:dataInputRefs>_C9D0E527-8FC3-4AAB-8244-B76776EF955C_GroupIdInputX</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_2</bpmn2:dataInputRefs>
         </bpmn2:inputSet>
         <bpmn2:outputSet id="_bOXfvMoiEeOsIItR3g2uqw"/>
       </bpmn2:ioSpecification>
@@ -167,6 +169,13 @@ kcontext.setVariable(&quot;report&quot;, report);</bpmn2:script>
           <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="_bOXfwcoiEeOsIItR3g2uqw">_C9D0E527-8FC3-4AAB-8244-B76776EF955C_GroupIdInputX</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_1">
+        <bpmn2:targetRef>DataInput_2</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_1">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_2">Pack goods</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_1">DataInput_2</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
     </bpmn2:userTask>
     <bpmn2:sequenceFlow id="_28C9EFAF-FE07-46CE-A641-97BF2BF9CECF" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" name="" sourceRef="_C9D0E527-8FC3-4AAB-8244-B76776EF955C" targetRef="_0895C108-A700-4420-9FE0-496DBD95537B"/>
     <bpmn2:userTask id="_0895C108-A700-4420-9FE0-496DBD95537B" drools:selectable="true" drools:scriptFormat="http://www.java.com/java" name="Ship goods">
@@ -175,9 +184,11 @@ kcontext.setVariable(&quot;report&quot;, report);</bpmn2:script>
       <bpmn2:ioSpecification id="_bOXfwsoiEeOsIItR3g2uqw">
         <bpmn2:dataInput id="_0895C108-A700-4420-9FE0-496DBD95537B_orderInputX" drools:dtype="org.jbpm.example.data.Order" itemSubjectRef="__0895C108-A700-4420-9FE0-496DBD95537B_orderInputXItem" name="order"/>
         <bpmn2:dataInput id="_0895C108-A700-4420-9FE0-496DBD95537B_GroupIdInputX" name="GroupId"/>
+        <bpmn2:dataInput id="DataInput_9" name="TaskName"/>
         <bpmn2:inputSet id="_bOXfw8oiEeOsIItR3g2uqw">
           <bpmn2:dataInputRefs>_0895C108-A700-4420-9FE0-496DBD95537B_orderInputX</bpmn2:dataInputRefs>
           <bpmn2:dataInputRefs>_0895C108-A700-4420-9FE0-496DBD95537B_GroupIdInputX</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_9</bpmn2:dataInputRefs>
         </bpmn2:inputSet>
         <bpmn2:outputSet id="_bOYGwMoiEeOsIItR3g2uqw"/>
       </bpmn2:ioSpecification>
@@ -190,6 +201,13 @@ kcontext.setVariable(&quot;report&quot;, report);</bpmn2:script>
         <bpmn2:assignment id="_bOYGw8oiEeOsIItR3g2uqw">
           <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="_bOYGxMoiEeOsIItR3g2uqw">Warehouse</bpmn2:from>
           <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="_bOYGxcoiEeOsIItR3g2uqw">_0895C108-A700-4420-9FE0-496DBD95537B_GroupIdInputX</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_9">
+        <bpmn2:targetRef>DataInput_9</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_7">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_14">Ship goods</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_13">DataInput_9</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
     </bpmn2:userTask>
@@ -331,11 +349,6 @@ kcontext.setVariable(&quot;report&quot;, report);</bpmn2:script>
         <di:waypoint xsi:type="dc:Point" x="525.0" y="66.0"/>
         <di:waypoint xsi:type="dc:Point" x="525.0" y="66.0"/>
         <di:waypoint xsi:type="dc:Point" x="525.0" y="65.0"/>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="BPMNEdge_DataInputAssociation_1">
-        <di:waypoint xsi:type="dc:Point" x="543.0" y="32.0"/>
-        <di:waypoint xsi:type="dc:Point" x="660.0" y="32.0"/>
-        <di:waypoint xsi:type="dc:Point" x="660.0" y="144.0"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="BPMNEdge_DataInputAssociation_3" bpmnElement="DataInputAssociation_2">
         <di:waypoint xsi:type="dc:Point" x="543.0" y="32.0"/>

@@ -6,6 +6,8 @@ import java.io.FilenameFilter;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import org.jbpm.process.audit.AuditLogService;
+import org.jbpm.process.audit.JPAAuditLogService;
 import org.jbpm.services.task.identity.JBossUserGroupCallbackImpl;
 import org.kie.api.runtime.EnvironmentName;
 import org.kie.api.runtime.KieSession;
@@ -27,6 +29,8 @@ public class EnvironmentProducer {
     protected RuntimeManager manager;
     
     protected RuntimeEngine engine;
+    
+    protected AuditLogService auditService;
     
     private EnvironmentProducer() {
         setupPoolingDataSource();
@@ -63,6 +67,10 @@ public class EnvironmentProducer {
     public KieSession getKieSession() {
         return engine.getKieSession();
     }
+    
+    public AuditLogService getAuditService() {
+    	return auditService;
+    }
 
     private void setupPoolingDataSource() {
         System.setProperty("java.naming.factory.initial", "bitronix.tm.jndi.BitronixInitialContextFactory");
@@ -95,6 +103,8 @@ public class EnvironmentProducer {
         manager = RuntimeManagerFactory.Factory.get().newSingletonRuntimeManager(builder.get());
 
         engine = manager.getRuntimeEngine(EmptyContext.get());
+        
+        auditService = new JPAAuditLogService(emf);
     }
     
     private static void cleanupSingletonSessionId() {
