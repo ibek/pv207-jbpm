@@ -2,20 +2,13 @@
 
 ## Set up environment and tools
 
-  1. Install JBDS 6.0.1.GA from [this link](https://devstudio.jboss.com/earlyaccess/builds/stable/6.0.1.GA/jbdevstudio-product-universal-6.0.1.GA-v20130327-2052-B361.jar) ... consider use of Eclipse only
-  2. Install following plugins to JBDS (via Help->Install New Software)
+  1. Install JBDS 7.1.1.GA from [this link](http://www.redhat.com/j/elqNow/elqRedir.htm?ref=http://www.jboss.org/download-manager/content/origin/files/sha256/93/9377ef0b9a50beebd1ccc26bfa8390a1f3b96a1a9f1c2dc415d107c05b1c50ad/jbdevstudio-product-universal-7.1.1.GA-v20140314-2145-B688.jar)
+  2. Install JBoss Business Process and Rules Development tools to JBDS (via Help->Install New Software)
 
-  2.1 [Modeling -> EMF Validation Framework SDK](http://download.eclipse.org/releases/juno)
+  2.1 [JBoss Business Process and Rules Development](https://devstudio.jboss.com/updates/7.0-development/integration-stack/)
 
-  2.2 [BPMN2 modeler](http://download.eclipse.org/bpmn2-modeler/site)
+## Steps
 
-  2.3 [Drools and jBPM plugin](http://download.jboss.org/drools/release/5.4.0.Final/org.drools.updatesite/)
-
-  3. [Download](http://sourceforge.net/projects/jbpm/files/jBPM%205/jbpm-5.4.0.Final/jbpm-5.4.0.Final-bin.zip/download) and unzip the jBPM 5.4 bin
-  4. In Windows->Preferences->jBPM->Installed jBPM Runtime - add location to the jBPM 5.4 libraries and mark it as a default runtime
-  5. In Windows->Preferences->jBPM Task - change the Port to 5153
-
-## First step
-
-[Direct download](https://www.dropbox.com/s/nyb0foeq7eura8v/pv207-jbpm.zip) --- [http://goo.gl/AvuVF](http://goo.gl/AvuVF)
+  1. Clone this repository or directly download [Direct download](https://github.com/ibek/pv207-jbpm/archive/master.zip)
+  2. TODO
 
