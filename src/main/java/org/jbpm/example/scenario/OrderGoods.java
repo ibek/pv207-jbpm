@@ -1,5 +1,8 @@
 package org.jbpm.example.scenario;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.jbpm.example.EnvironmentProducer;
 import org.jbpm.example.data.Order;
 import org.jbpm.example.data.ProductType;
