@@ -67,7 +67,7 @@ public class OrderGoods {
 		 */
 
 		/**
-		 * TODO: claim, start and complete tasks "Pack goods" and "Ship goods"
+		 * TODO: for an active process claim, start and complete tasks "Pack goods" and "Ship goods"
 		 * with user "mary". You can find these methods useful:
 		 * 
 		 * taskService.getTasksByProcessInstanceId, taskService.getTaskById,
